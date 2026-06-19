@@ -1,0 +1,32 @@
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [19/Jun/2026 07:19:30] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 07:19:30] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:31] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:31] "[36mGET /static/css/theme.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "[32mGET /index HTTP/1.1[0m" 302 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "[36mGET /static/css/theme.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:36] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:19:52] "[31m[1mGET /api/items HTTP/1.1[0m" 401 -
+127.0.0.1 - - [19/Jun/2026 07:19:52] "[31m[1mGET /api/dashboard-revenue HTTP/1.1[0m" 401 -
+127.0.0.1 - - [19/Jun/2026 07:19:52] "[31m[1mGET /api/items HTTP/1.1[0m" 401 -
+127.0.0.1 - - [19/Jun/2026 07:23:40] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 07:23:40] "[36mGET /static/css/theme.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:23:40] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:23:40] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:23:52] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 07:23:52] "[36mGET /static/css/theme.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:23:52] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:23:52] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:24:19] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 07:24:20] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:24:20] "[36mGET /static/css/theme.css HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 07:24:20] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -

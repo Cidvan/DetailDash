@@ -1,0 +1,2 @@
+- [Blueprint architecture](blueprint-arch.md) — app uses create_app() factory; auth/pages/api blueprints; url_for must use "auth.login_get" / "pages.index" etc.
+- [CSRF setup](csrf-setup.md) — Flask-WTF CSRFProtect; api_bp exempted; csrf_token() in login.html forms only; test client needs real token extracted from page HTML.

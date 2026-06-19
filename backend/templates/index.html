@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | DetailDash{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% set active_page = "dashboard" %}
+
+{% block extra_css %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="dd-page-header">
+  <div>
+    <h1>Dashboard</h1>
+    <p>Welcome back, {{ current_user.username if current_user else 'Guest' }}. Here's your business overview.</p>
+  </div>
+  <a href="/transaction" class="dd-btn dd-btn-primary">
+    <i class="fas fa-plus"></i> New Transaction
+  </a>
+</div>
+
+<!-- Stat Cards -->
+<div class="dd-stats-grid">
+  <div class="dd-stat">
+    <div class="dd-stat-icon blue"><i class="fas fa-peso-sign"></i></div>
+    <div class="dd-stat-body">
+      <div class="dd-stat-label">Daily Sales</div>
+      <div class="dd-stat-value">₱{{ "%.2f"|format(daily_sales) }}</div>
+      <div class="dd-stat-sub">Today's revenue</div>
+    </div>
+  </div>
+  <div class="dd-stat">
+    <div class="dd-stat-icon green"><i class="fas fa-chart-line"></i></div>
+    <div class="dd-stat-body">
+      <div class="dd-stat-label">Monthly Revenue</div>
+      <div class="dd-stat-value">₱{{ "%.2f"|format(monthly_revenue) }}</div>
+      <div class="dd-stat-sub">This month</div>
+    </div>
+  </div>
+  <div class="dd-stat">
+    <div class="dd-stat-icon amber"><i class="fas fa-triangle-exclamation"></i></div>
+    <div class="dd-stat-body">
+      <div class="dd-stat-label">Low Stock Items</div>
+      <div class="dd-stat-value">{{ low_stock }}</div>
+      <div class="dd-stat-sub">Products ≤ 5 units</div>
+    </div>
+  </div>
+  <div class="dd-stat">
+    <div class="dd-stat-icon red"><i class="fas fa-clipboard-list"></i></div>
+    <div class="dd-stat-body">
+      <div class="dd-stat-label">Pending Jobs</div>
+      <div class="dd-stat-value">{{ pending_jobs }}</div>
+      <div class="dd-stat-sub">Awaiting service</div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Links -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;">
+  <a href="/transaction" class="dd-card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;text-decoration:none;transition:box-shadow .15s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(37,99,235,.15)'" onmouseout="this.style.boxShadow=''">
+    <div class="dd-stat-icon blue" style="width:40px;height:40px;font-size:1rem;"><i class="fas fa-receipt"></i></div>
+    <span style="font-size:.8rem;font-weight:600;color:var(--text);">Transactions</span>
+  </a>
+  <a href="/customers" class="dd-card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;text-decoration:none;transition:box-shadow .15s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(37,99,235,.15)'" onmouseout="this.style.boxShadow=''">
+    <div class="dd-stat-icon teal" style="width:40px;height:40px;font-size:1rem;"><i class="fas fa-users"></i></div>
+    <span style="font-size:.8rem;font-weight:600;color:var(--text);">Customers</span>
+  </a>
+  <a href="/vehicles" class="dd-card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;text-decoration:none;transition:box-shadow .15s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(37,99,235,.15)'" onmouseout="this.style.boxShadow=''">
+    <div class="dd-stat-icon green" style="width:40px;height:40px;font-size:1rem;"><i class="fas fa-car"></i></div>
+    <span style="font-size:.8rem;font-weight:600;color:var(--text);">Vehicles</span>
+  </a>
+  <a href="/job-orders" class="dd-card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;text-decoration:none;transition:box-shadow .15s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(37,99,235,.15)'" onmouseout="this.style.boxShadow=''">
+    <div class="dd-stat-icon amber" style="width:40px;height:40px;font-size:1rem;"><i class="fas fa-clipboard-list"></i></div>
+    <span style="font-size:.8rem;font-weight:600;color:var(--text);">Job Orders</span>
+  </a>
+  <a href="/inventory" class="dd-card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px;text-decoration:none;transition:box-shadow .15s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(37,99,235,.15)'" onmouseout="this.style.boxShadow=''">
+    <div class="dd-stat-icon red" style="width:40px;height:40px;font-size:1rem;"><i class="fas fa-boxes-stacked"></i></div>
+    <span style="font-size:.8rem;font-weight:600;color:var(--text);">Inventory</span>
+  </a>
+</div>
+
+<!-- Revenue Chart + Recent Transactions side-by-side -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;">
+
+  <!-- 7-Day Revenue Chart -->
+  <div class="dd-card" style="padding:0;">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+      <div style="font-size:.95rem;font-weight:700;">Revenue — Last 7 Days</div>
+      <div style="font-size:.78rem;color:var(--text-muted);">Daily transaction totals</div>
+    </div>
+    <div style="padding:16px;">
+      <canvas id="revenueChart" height="180"></canvas>
+    </div>
+  </div>
+
+  <!-- Recent Transactions -->
+  <div class="dd-card" style="padding:0;">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div style="font-size:.95rem;font-weight:700;">Recent Transactions</div>
+        <div style="font-size:.78rem;color:var(--text-muted);">Last 5 completed sales</div>
+      </div>
+      <a href="/transaction" class="dd-btn dd-btn-secondary" style="font-size:.8rem;padding:6px 12px;">
+        View All <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+    <div class="dd-table-wrapper" style="border:none;border-radius:0 0 10px 10px;box-shadow:none;">
+      <table class="dd-table">
+        <thead>
+          <tr>
+            <th>Transaction #</th>
+            <th>Customer</th>
+            <th style="text-align:right;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if recent_transactions %}
+            {% for t in recent_transactions %}
+            <tr>
+              <td><span style="font-family:monospace;font-weight:600;font-size:.8rem;">#{{ t.transaction_id }}</span></td>
+              <td style="font-size:.85rem;">{{ t.customer_name }}</td>
+              <td style="text-align:right;font-weight:600;color:var(--primary);font-size:.85rem;">₱{{ "%.2f"|format(t.total_amount) }}</td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr><td colspan="3" class="dd-table-empty">
+              <i class="fas fa-receipt"></i>
+              No transactions yet — <a href="/transaction">create your first one</a>.
+            </td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  fetch('/api/dashboard-revenue')
+    .then(r => r.json())
+    .then(data => {
+      const ctx = document.getElementById('revenueChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            label: 'Revenue (₱)',
+            data: data.values,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37,99,235,0.08)',
+            borderWidth: 2,
+            pointBackgroundColor: '#2563eb',
+            pointRadius: 4,
+            fill: true,
+            tension: 0.3,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => '₱' + ctx.parsed.y.toFixed(2)
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: v => '₱' + v.toLocaleString(),
+                font: { size: 11 }
+              },
+              grid: { color: 'rgba(0,0,0,0.05)' }
+            },
+            x: {
+              ticks: { font: { size: 11 } },
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    });
+})();
+</script>
+{% endblock %}

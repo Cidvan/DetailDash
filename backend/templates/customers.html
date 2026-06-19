@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Customers | DetailDash{% endblock %}
+{% block page_title %}Customers{% endblock %}
+{% set active_page = "customers" %}
+
+{% block content %}
+<div class="dd-page-header">
+  <div>
+    <h1>Customers</h1>
+    <p>Manage your customer database.</p>
+  </div>
+  <button id="addCustomerBtn" class="dd-btn dd-btn-primary">
+    <i class="fas fa-plus"></i> Add Customer
+  </button>
+</div>
+
+<!-- Search -->
+<div style="margin-bottom:16px;">
+  <input type="text" id="customerSearch" class="dd-form-control" placeholder="Search by name, phone or email…" style="max-width:360px;"/>
+</div>
+
+<div class="dd-table-wrapper">
+  <table class="dd-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th style="text-align:center;">Vehicles</th>
+        <th style="text-align:center;">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="customersTableBody">
+      <tr><td colspan="5" class="dd-table-empty">
+        <i class="fas fa-users"></i> No customers found.
+      </td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── Customer Modal ─────────────────────────────────────────── -->
+<div class="modal fade dd-modal" id="customerModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerModalTitle">Add Customer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="dd-form-group">
+          <label>Full Name <span style="color:var(--danger);">*</span></label>
+          <input type="text" class="dd-form-control" id="customerName" placeholder="e.g. Juan Dela Cruz" required/>
+        </div>
+        <div class="dd-form-group">
+          <label>Phone Number</label>
+          <input type="text" class="dd-form-control" id="customerPhone" placeholder="e.g. 09171234567"/>
+        </div>
+        <div class="dd-form-group">
+          <label>Email Address</label>
+          <input type="email" class="dd-form-control" id="customerEmail" placeholder="e.g. juan@email.com"/>
+        </div>
+        <div class="dd-form-group">
+          <label>Notes</label>
+          <textarea class="dd-form-control" id="customerNotes" rows="3" placeholder="Any additional notes…" style="resize:vertical;"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="dd-btn dd-btn-primary" id="customerSaveBtn">Save Customer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Customer History Modal ────────────────────────────────── -->
+<div class="modal fade dd-modal" id="customerHistoryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-clock-rotate-left me-2" style="color:var(--primary);"></i><span id="historyCustomerName">Customer</span> — History</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:20px;">
+        <!-- Transactions -->
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:10px;color:var(--text-main);"><i class="fas fa-receipt me-1" style="color:var(--primary);"></i> Transactions</div>
+        <div class="dd-table-wrapper" style="margin-bottom:24px;">
+          <table class="dd-table">
+            <thead>
+              <tr>
+                <th>Txn #</th>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th style="text-align:right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="historyTxnBody">
+              <tr><td colspan="4" class="dd-table-empty"><i class="fas fa-receipt"></i> No transactions.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Job Orders -->
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:10px;color:var(--text-main);"><i class="fas fa-clipboard-list me-1" style="color:var(--primary);"></i> Job Orders</div>
+        <div class="dd-table-wrapper">
+          <table class="dd-table">
+            <thead>
+              <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th>Status</th>
+                <th style="text-align:right;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="historyJoBody">
+              <tr><td colspan="5" class="dd-table-empty"><i class="fas fa-clipboard-list"></i> No job orders.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/customers.js') }}"></script>
+{% endblock %}

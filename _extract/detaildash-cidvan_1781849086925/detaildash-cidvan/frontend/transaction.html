@@ -1,0 +1,233 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+        <link rel="icon" href="assets/images/detaildash-icon.png"/>
+
+        <!-- Local CSS -->
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/components/navbar/navbar.css"/>
+        <link rel="stylesheet" href="css/components/sidebar/sidebar.css"/>
+        <link rel="stylesheet" href="css/transaction.css"/>
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <title>Transaction | DetailDash</title>
+    </head>
+    <body>
+        <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+            <div class="container-fluid">
+                <button class="toggle-sidebar-btn me-2" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <a href="#" class="navbar-brand mb-0 h1">
+                    <img class="d-inline-block align-top" src="assets/images/detaildash-name.png" width="240" alt="DetailDash Logo">
+                </a>
+                <button
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    class="navbar-toggler"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle Navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">  
+                        <form class="d-flex ms-lg-2">
+                            <input type="text" class="form-control me-2" placeholder="Search">
+                            <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <aside class="bg-dark text-light">
+            <div class="sidebar d-flex flex-column nav nav-pills nav-flush">
+                <a href="account.html" class="nav-link mb-1">
+                    <span class="material-symbols-outlined me-2">person</span>
+                    <h5>Account</h5>
+                </a>
+                <a href="index.html" class="nav-link mb-1">
+                    <span class="material-symbols-outlined me-2">dashboard</span>
+                    <h5>Dashboard</h5>
+                </a>
+                <a href="transaction.html" class="nav-link active mb-1">
+                    <span class="material-symbols-outlined me-2">receipt_long</span>
+                    <h5>Transaction</h5>
+                </a>
+                <a href="sales.html" class="nav-link mb-1">
+                    <span class="material-symbols-outlined me-2">search_insights</span>
+                    <h5>Sales</h5>
+                </a>    
+                <a href="inventory.html" class="nav-link mb-1">
+                    <span class="material-symbols-outlined me-2">inventory</span>
+                    <h5>Inventory</h5>
+                </a>
+                <a href="#" class="nav-link mb-1">
+                    <span class="material-symbols-outlined me-2">settings</span>
+                    <h5>Settings</h5>
+                </a>
+                <a href="login.html" class="nav-link">
+                    <span class="material-symbols-outlined me-2">logout</span>
+                    <h5>Log Out</h5>
+                </a>
+            </div>
+        </aside>
+        
+        <div id="main-content">
+            <div class="transaction-header">
+                <h1>Purchase List</h1>
+                <div class="transaction-actions">
+                    <button id="addTransactionButton" type="button" class="btn btn-primary">
+                        Add New
+                    </button>
+                </div>
+            </div>
+
+            <div id="services-section" class="active">
+                <table class="menu-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction #</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0001</td>
+                            <td>01-05-2025</td>
+                            <td>Customer 1</td>
+                            <td>₱10</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit"><span class="material-symbols-outlined" style="font-size: 16px;">edit</span></button>
+                                    <button class="delete"><span class="material-symbols-outlined" style="font-size: 16px;">delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>0002</td>
+                            <td>01-05-2025</td>
+                            <td>Customer 2</td>
+                            <td>₱30</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit"><span class="material-symbols-outlined" style="font-size: 16px;">edit</span></button>
+                                    <button class="delete"><span class="material-symbols-outlined" style="font-size: 16px;">delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>0003</td>
+                            <td>01-05-2025</td>
+                            <td>Customer 3</td>
+                            <td>₱45</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="edit"><span class="material-symbols-outlined" style="font-size: 16px;">edit</span></button>
+                                    <button class="delete"><span class="material-symbols-outlined" style="font-size: 16px;">delete</span></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="myModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-lg"> <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title">New Transaction</h2>
+                            <button
+                                id="closeModalBtn"
+                                type="button"
+                                class="btn-close close-button"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <p class="text-muted mb-3">
+                                Select services, enter customer details, and complete the transaction.
+                            </p>
+
+                            <div class="mb-3">
+                                <label for="orderDate" class="form-label">Order Date:</label>
+                                <input type="date" class="form-control" id="orderDate">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="customername" class="form-label">Customer Name:</label>
+                                <input type="text" class="form-control" id="customername" placeholder="Enter customer name">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="categorySelect" class="form-label">Category:</label>
+                                <select class="form-select" id="categorySelect">
+                                    <option value="All">All Categories</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <input
+                                    type="text"
+                                    id="productSearch"
+                                    class="form-control"
+                                    placeholder="Search for products..."
+                                />
+                            </div>
+
+                            <div class="product-grid" id="productGrid"></div>
+
+                            <hr class="my-4">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h3>Order Summary</h3>
+                                    <div id="cartItems" class="list-group">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="bg-light p-3 border rounded">
+                                        <h3>Payment</h3>
+                                        <div class="mb-3">
+                                            <p class="fw-bold">Total: <span id="grandTotal">₱0.00</span></p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="payment" class="form-label">Payment:</label>
+                                            <input type="number" class="form-control" id="payment" min="0">
+                                        </div>
+                                        <div class="mb-3">
+                                            <p>Change: <span id="change">₱0.00</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button id="finalizeCheckoutBtn" class="btn btn-primary">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Local JS -->
+        <script src="js/modules/sidebar.js"></script>
+        <script src="js/transaction.js"></script>
+        
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-...." crossorigin="anonymous"></script>
+    </body>
+    </html>

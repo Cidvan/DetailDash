@@ -1,0 +1,649 @@
+:root {
+    --primary-base: #1edbfc;
+    --secondary-base: #212529;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* for sidebar/topnavi*/
+aside {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    padding-top: 70px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transition: left 0.3s ease;
+}
+
+aside.sidebar-collapsed {
+    left: -250px;
+}
+
+aside .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+aside .logo {
+    display: flex;
+    align-items: center;
+}
+
+aside .logo img {
+    width: 40px;
+    margin-right: 0.5rem;
+}
+
+aside .sidebar a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+aside .sidebar a:hover {
+    background-color: #495057;
+    color: #ffffff;
+}
+
+aside .sidebar a span {
+    margin-right: 1rem;
+}
+
+aside .sidebar a h5 {
+    margin-bottom: 0;
+}
+
+aside .sidebar a .badge {
+    margin-left: auto;
+}
+
+.navbar {
+    font-family: 'Roboto', sans-serif;
+}
+
+.dropdown-menu {
+    font-family: 'Roboto', sans-serif;
+}
+
+.form-control {
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+    font-family: 'Roboto', sans-serif;
+}
+
+.btn-outline-light {
+    background-color: var(--secondary-base);
+    color: var(--primary-base);
+    border: 2px solid var(--secondary-base);
+}
+
+.btn-outline-light:hover {
+    background-color: color-mix(in srgb, var(--secondary-base) 90%, white);
+    color: var(--primary-base);
+    border-color: color-mix(in srgb, var(--secondary-base) 90%, white);
+}
+
+.toggle-sidebar-btn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 3;
+}
+
+.toggle-sidebar-btn:focus {
+    outline: none;
+}
+
+
+/**************************END of sidebar/topnavi********************/
+
+
+/*==================== NAVIGATION ELEMENTS ====================*/
+.navbar,
+.dropdown-menu,
+.form-control,
+.btn {
+    font-family: 'Roboto', sans-serif;
+}
+
+/*==================== BUTTON STYLES ====================*/
+.btn-outline-light {
+    background-color: var(--secondary-base);
+    color: var(--primary-base);
+    border: 2px solid var(--secondary-base);
+}
+
+.btn-outline-light:hover {
+    background-color: color-mix(in srgb, var(--secondary-base) 90%, white);
+    color: var(--primary-base);
+    border-color: color-mix(in srgb, var(--secondary-base) 90%, white);
+}
+
+.toggle-sidebar-btn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 3;
+}
+
+.toggle-sidebar-btn:focus {
+    outline: none;
+}
+
+/*==================== MAIN CONTENT AREA ====================*/
+#main-content {
+    box-sizing: border-box;
+    margin-top: 56px;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+    width: 100%;
+}
+
+#main-content.sidebar-open {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+/*==================== TRANSACTION HEADER & ACTIONS ====================*/
+.transaction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.transaction-actions button {
+    margin-left: 5px;
+    border-radius: 10px;
+    background-color: var(--secondary-base);
+    border: 2px solid var(--secondary-base);
+    color: var(--primary-base);
+    padding: 1px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-actions .btn-success,
+.transaction-actions .btn-primary {
+    background-color: var(--primary-base);
+    color: var(--secondary-base);
+    border: 2px solid var(--primary-base);
+}
+
+.transaction-actions .btn-success:hover,
+.transaction-actions .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--primary-base) 80%, black);
+    color: var(--secondary-base);
+    border-color: color-mix(in srgb, var(--primary-base) 80%, black);
+}
+
+/*==================== TABLES ====================*/
+/* Inventory Table */
+.inventory-table,
+.menu-table,
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table th,
+.inventory-table td,
+.transaction-table th,
+.transaction-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+.inventory-table th,
+.transaction-table th {
+    background-color: #343a40;
+    color: white;
+}
+
+.inventory-table tbody tr:nth-child(odd),
+.transaction-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.inventory-table tbody tr:hover,
+.transaction-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* Menu Table */
+.menu-table th,
+.menu-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.menu-table th {
+    background-color: #212529;
+    color: white;
+}
+
+/*==================== MENU ITEM ====================*/
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+}
+
+.menu-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.item-details {
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+}
+
+.item-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #343a40;
+    margin-bottom: 5px;
+}
+
+.item-price {
+    font-size: 0.9rem;
+    color: #28a745;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.item-quantity {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+/*==================== SECTION TITLE ====================*/
+.section-title {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+/*==================== TOGGLE BUTTONS ====================*/
+.toggle-container {
+    display: flex;
+    justify-content: left 0;
+    margin-bottom: 20px;
+}
+
+.toggle-button {
+    background-color: #e9ecef;
+    border: 2px solid #212529;
+    color: #212529;
+    padding: 1px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-right: 5px;
+}
+
+.toggle-button:hover {
+    background-color: #1edbfc;
+    color: #212529;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-button.active {
+    background-color: #212529;
+    color: white;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+/*==================== SECTION VISIBILITY ====================*/
+#services-section,
+#products-section {
+    display: none;
+}
+
+#services-section.active,
+#products-section.active {
+    display: block;
+}
+
+/*==================== ACTION BUTTONS ====================*/
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-buttons button {
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.action-buttons button.edit {
+    background-color: #ffeeba;
+    color: #856404;
+    border: 1px solid #ffeb3b;
+}
+
+.action-buttons button.edit:hover {
+    background-color: #f0c285;
+}
+
+.action-buttons button.delete {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.action-buttons button.delete:hover {
+    background-color: #e6b8af;
+}
+
+/*==================== RESPONSIVE DESIGN ====================*/
+@media (max-width: 767.98px) {
+    aside {
+        left: -250px;
+    }
+
+    aside.sidebar-open {
+        left: 0;
+    }
+
+    #main-content.sidebar-open {
+        margin-left: 0;
+    }
+}
+
+/*==================== MODAL STYLES ====================*/
+#myModal .modal-content {
+    background-color: #ffffff !important;
+    color: #ffffff !important;
+    border: 1px solid #212529;
+    border-radius: 0.5rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    margin: 1rem;
+}
+
+.modal-header {
+    border-bottom: 1px solid #212529;
+    padding: 1rem;
+    background-color:#212529 ;
+}
+
+.modal-header h2 {
+    color: #2d2d2d;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.close-button {
+    color: #2d2d2d;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    padding: 0;
+}
+
+.close-button:hover {
+    opacity: 1;
+}
+
+.modal-body {
+    padding: 1rem;
+}
+
+.modal-body p {
+    color: #2d2d2d;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #ccc;
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+/*==================== INPUTS ====================*/
+.name-input,
+.search-input,
+.date-picker {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    color: #2d2d2d;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.search-input:focus,
+.date-picker:focus {
+    outline: none;
+    border-color: #1edbfc;
+    box-shadow: 0 0 0 3px rgba(30, 219, 252, 0.4);
+}
+
+.date-picker-icon {
+    color: #888;
+}
+
+/*==================== PRODUCT GRID ====================*/
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.product-card {
+    background-color: #343a40;
+    padding: 1.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ccc;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    color: #2d2d2d;
+}
+
+.product-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.product-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2d2d2d;
+    font-weight: 500;
+}
+
+.product-card p {
+    color: #444;
+}
+
+/*==================== CART SUMMARY ====================*/
+.cart-summary {
+    background-color: #343a40;
+    padding: 1.25rem;
+    border-radius: 0.375rem;
+    border: 1px solid #ccc;
+    margin-bottom: 1.5rem;
+    color: #2d2d2d;
+    border-color: #212529; /******ANSEHNAS*******/
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.cart-item p,
+.grand-total,
+.grand-total p {
+    color: #2d2d2d;
+    font-size: 1rem;
+}
+
+.grand-total {
+    padding-top: 0.75rem;
+    border-top: 1px solid #ccc;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*==================== STOCK BADGES ====================*/
+.dd-stock-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+}
+
+.dd-stock-available {
+    background-color: rgba(30, 219, 100, 0.15);
+    color: #1a9e50;
+    border: 1px solid rgba(30, 219, 100, 0.35);
+}
+
+.dd-stock-empty {
+    background-color: rgba(220, 53, 69, 0.12);
+    color: #b02030;
+    border: 1px solid rgba(220, 53, 69, 0.35);
+}
+
+.dd-product-card.out-of-stock {
+    opacity: 0.55;
+    filter: grayscale(40%);
+    cursor: not-allowed;
+}
+
+.dd-product-card.out-of-stock button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/*==================== UTILITY CLASSES ====================*/
+.text-center {
+    text-align: center;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.p-4 {
+    padding: 1rem;
+}
+
+.rounded-md {
+    border-radius: 0.375rem;
+}
+
+.border {
+    border-width: 1px;
+}
+
+.border-gray-700 {
+    border-color: #bbb;
+}
+
+.bg-gray-800 {
+    background-color: #f1f1f1;
+}
+
+.text-gray-300 {
+    color: #000000 !important;
+}
+
+#myModal .modal-header h2,
+#myModal .product-card h3,
+#myModal .product-card p,
+#myModal .cart-item p,
+#myModal .grand-total p {
+    color: #ffffff !important;
+}

@@ -1,0 +1,410 @@
+Project Modernization & Production Deployment Prompt
+
+Analyze the entire codebase and transform it into a production-ready Car Wash & Auto Detailing Management System suitable for deployment on a Linux VPS using PostgreSQL.
+
+Critical Rule
+
+Do NOT remove existing business functionality.
+
+Preserve and improve all current features including:
+
+* Authentication and login
+* Dashboard
+* Inventory management
+* Transactions
+* Customer accounts
+* Service management
+* Invoicing
+* Database operations
+* Reporting
+* Existing workflows
+
+If a feature is broken, fix it rather than removing it.
+
+⸻
+
+Primary Goal
+
+Convert this project into a modern, scalable, maintainable, and deployment-ready business management system for a professional car wash and auto detailing company.
+
+The final application should be suitable for:
+
+* VPS deployment
+* PostgreSQL production database
+* Multiple users
+* Real business operations
+* Future expansion
+
+⸻
+
+Architecture Requirements
+
+Backend
+
+Refactor backend using Flask best practices:
+
+* Blueprint-based architecture
+* Service layer separation
+* Modular routes
+* Reusable utilities
+* Environment-based configuration
+* Proper error handling
+* Structured logging
+
+Suggested structure:
+
+backend/
+├── app/
+│   ├── routes/
+│   ├── services/
+│   ├── models/
+│   ├── forms/
+│   ├── utils/
+│   ├── middleware/
+│   └── templates/
+├── static/
+├── migrations/
+├── config.py
+└── app.py
+
+⸻
+
+Database
+
+Migrate fully to PostgreSQL.
+
+Requirements:
+
+* SQLAlchemy models
+* Alembic/Flask-Migrate migrations
+* Proper relationships
+* Foreign key constraints
+* Indexes on frequently queried fields
+* Production-safe schema
+
+Remove SQLite dependency.
+
+Use environment variables:
+
+DATABASE_URL=postgresql://user:password@host:5432/database
+
+⸻
+
+Configuration
+
+Create:
+
+.env.example
+
+Required variables:
+
+SECRET_KEY=
+DATABASE_URL=
+FLASK_ENV=
+SESSION_SECRET=
+APP_URL=
+
+No hardcoded credentials.
+
+⸻
+
+Business Modules
+
+Dashboard
+
+Create a professional dashboard with:
+
+* Total revenue
+* Daily sales
+* Monthly sales
+* Total customers
+* Total vehicles
+* Active jobs
+* Inventory alerts
+* Recent transactions
+* Revenue charts
+* Service statistics
+
+⸻
+
+Customer Management
+
+Support:
+
+* Customer profiles
+* Contact information
+* Customer notes
+* Customer history
+* Service history
+* Invoice history
+
+⸻
+
+Vehicle Management
+
+Create dedicated vehicle records:
+
+* Plate number
+* Vehicle owner
+* Make
+* Model
+* Year
+* Color
+* Service history
+
+⸻
+
+Services Module
+
+Support:
+
+* Basic Wash
+* Premium Wash
+* Interior Detailing
+* Exterior Detailing
+* Full Detailing
+* Engine Wash
+* Ceramic Coating
+* Waxing
+* Custom Services
+
+Allow service pricing management.
+
+⸻
+
+Job Orders
+
+Support:
+
+* Create job order
+* Assign services
+* Assign staff
+* Job status tracking
+* Completion tracking
+* Notes and remarks
+
+Statuses:
+
+* Pending
+* Scheduled
+* In Progress
+* Waiting
+* Completed
+* Cancelled
+
+⸻
+
+Inventory Management
+
+Support:
+
+* Products
+* Chemicals
+* Equipment
+* Supplies
+* Stock levels
+* Minimum stock alerts
+* Supplier management
+* Stock movement history
+
+⸻
+
+Invoice Management
+
+Create professional invoices.
+
+Features:
+
+* Printable invoice
+* Invoice number generation
+* Tax support
+* Service breakdown
+* Product breakdown
+* Payment tracking
+
+⸻
+
+Transactions
+
+Support:
+
+* Cash payments
+* GCash
+* Bank transfer
+* Card payments
+
+Generate:
+
+* Daily reports
+* Weekly reports
+* Monthly reports
+
+⸻
+
+Authentication
+
+Implement secure authentication:
+
+* Password hashing
+* Session management
+* Login protection
+* Logout
+* Password reset architecture
+
+Optional:
+
+* Admin role
+* Manager role
+* Staff role
+
+⸻
+
+UI / UX Modernization
+
+Transform the system into a professional automotive SaaS dashboard.
+
+Requirements:
+
+* Modern responsive layout
+* Mobile-friendly
+* Desktop optimized
+* Clean navigation
+* Sidebar navigation
+* Modern tables
+* Search and filtering
+* Professional forms
+* Dashboard cards
+* Empty states
+* Loading states
+
+Design inspiration:
+
+* Stripe Dashboard
+* Linear
+* Notion
+* Modern ERP systems
+
+Theme:
+
+* Automotive
+* Premium detailing shop
+* Professional business software
+
+Avoid outdated Bootstrap-looking layouts.
+
+⸻
+
+Frontend Quality
+
+Refactor:
+
+* Duplicate HTML
+* Duplicate CSS
+* Duplicate JavaScript
+
+Use:
+
+* Reusable components
+* Shared layouts
+* Shared navigation
+* Consistent styling
+
+⸻
+
+Security
+
+Implement:
+
+* CSRF protection
+* Input validation
+* SQL injection protection
+* XSS protection
+* Secure session cookies
+* Environment secrets
+
+⸻
+
+Performance
+
+Optimize:
+
+* Database queries
+* Static assets
+* CSS organization
+* JavaScript organization
+
+Remove unused files.
+
+⸻
+
+Deployment Readiness
+
+Prepare project for VPS deployment.
+
+Generate:
+
+requirements.txt
+
+gunicorn configuration
+
+production configuration
+
+systemd service example
+
+Nginx reverse proxy example
+
+PostgreSQL setup guide
+
+Deployment checklist
+
+Environment variable documentation
+
+Database migration commands
+
+Startup commands
+
+Backup strategy
+
+⸻
+
+Documentation
+
+Generate:
+
+README.md
+
+Including:
+
+* Installation
+* PostgreSQL setup
+* Environment variables
+* Migration commands
+* Deployment instructions
+* Troubleshooting
+
+⸻
+
+Refactoring Process
+
+Step 1:
+Analyze current project structure.
+
+Step 2:
+Identify broken code, duplicates, dead files, and architectural issues.
+
+Step 3:
+Create a modernization plan.
+
+Step 4:
+Implement changes incrementally.
+
+Step 5:
+Test every module.
+
+Step 6:
+Ensure application runs without errors.
+
+Step 7:
+Prepare production deployment package.
+
+Do not rewrite blindly. Analyze first, preserve functionality, then modernize and prepare for production deployment.

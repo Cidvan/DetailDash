@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+{% block title %}Inventory | DetailDash{% endblock %}
+{% block page_title %}Inventory{% endblock %}
+{% set active_page = "inventory" %}
+
+{% block content %}
+<div class="dd-page-header">
+  <div>
+    <h1>Inventory</h1>
+    <p>Manage your services and products.</p>
+  </div>
+  <button id="addItemButton" class="dd-btn dd-btn-primary">
+    <i class="fas fa-plus"></i> Add Item
+  </button>
+</div>
+
+<div class="dd-tabs">
+  <button class="dd-tab active" data-section="services">Services</button>
+  <button class="dd-tab" data-section="products">Products</button>
+</div>
+
+<!-- Services Table -->
+<div id="services-section" class="dd-section active">
+  <div class="dd-table-wrapper">
+    <table class="dd-table">
+      <thead>
+        <tr>
+          <th style="width:60px;">Image</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th style="text-align:right;">Price</th>
+          <th style="text-align:center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="servicesTableBody">
+        <tr><td colspan="5" class="dd-table-empty"><i class="fas fa-wrench"></i> No services found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Products Table -->
+<div id="products-section" class="dd-section">
+  <div class="dd-table-wrapper">
+    <table class="dd-table">
+      <thead>
+        <tr>
+          <th style="width:60px;">Image</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th style="text-align:right;">Price</th>
+          <th style="text-align:center;">Qty</th>
+          <th style="text-align:center;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productsTableBody">
+        <tr><td colspan="6" class="dd-table-empty"><i class="fas fa-box"></i> No products found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Stock History Modal ────────────────────────────────────── -->
+<div class="modal fade dd-modal" id="stockLogModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-clock-rotate-left" style="margin-right:8px;color:var(--primary);"></i>Stock History — <span id="stockLogProductName"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" style="padding:0;">
+        <div id="stockLogLoading" style="padding:32px;text-align:center;color:var(--text-muted);">
+          <i class="fas fa-spinner fa-spin"></i> Loading…
+        </div>
+        <div id="stockLogContent" style="display:none;">
+          <div class="dd-table-wrapper" style="margin:0;border:none;border-radius:0;">
+            <table class="dd-table">
+              <thead>
+                <tr>
+                  <th>Date & Time</th>
+                  <th style="text-align:center;">Change</th>
+                  <th>Reason</th>
+                  <th>Transaction</th>
+                </tr>
+              </thead>
+              <tbody id="stockLogTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Adjust Stock Modal ─────────────────────────────────────── -->
+<div class="modal fade dd-modal" id="adjustStockModal" tabindex="-1">
+  <div class="modal-dialog" style="max-width:440px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-sliders" style="margin-right:8px;color:var(--primary);"></i>Adjust Stock — <span id="adjustStockProductName"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div style="background:var(--surface-2,#f8fafc);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;">
+          <span style="color:var(--text-muted);font-size:.875rem;">Current stock</span>
+          <span id="adjustStockCurrent" style="font-size:1.25rem;font-weight:700;color:var(--text);"></span>
+        </div>
+        <div class="dd-form-group">
+          <label>Adjustment <span style="color:var(--text-muted);font-weight:400;font-size:.8rem;">(use − for removals, + for additions)</span></label>
+          <input type="number" class="dd-form-control" id="adjustStockDelta" placeholder="e.g. −3 or +10" step="1"/>
+          <div id="adjustStockPreview" style="margin-top:6px;font-size:.85rem;color:var(--text-muted);min-height:1.2em;"></div>
+        </div>
+        <div class="dd-form-group">
+          <label>Reason / Notes <span style="color:var(--text-muted);font-weight:400;font-size:.8rem;">(optional)</span></label>
+          <textarea class="dd-form-control" id="adjustStockNotes" rows="2" placeholder="e.g. Damaged goods, supplier delivery, stocktake correction…" style="resize:vertical;"></textarea>
+        </div>
+        <div id="adjustStockError" style="display:none;color:var(--danger);font-size:.875rem;margin-top:4px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="dd-btn dd-btn-primary" id="adjustStockSaveBtn">Apply Adjustment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Product Modal ──────────────────────────────────────────── -->
+<div class="modal fade dd-modal" id="productModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="productForm">
+          <div class="dd-form-group">
+            <label>Name</label>
+            <input type="text" class="dd-form-control" id="productName" placeholder="Product name" required/>
+          </div>
+          <div class="dd-form-group">
+            <label>Category</label>
+            <select class="dd-form-control" id="productCategory">
+              <option selected>Select category</option>
+            </select>
+          </div>
+          <div class="dd-form-group">
+            <label>Product Picture</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <img id="productPreviewImage" src="https://placehold.co/80x80/EEE/31343C" alt="Product" style="width:80px;height:80px;border-radius:6px;object-fit:cover;border:1px solid var(--border);"/>
+              <div>
+                <input type="file" id="productFileInput" accept="image/*" style="display:none;"/>
+                <button type="button" class="dd-btn dd-btn-secondary" id="productFileButton" style="font-size:.8rem;padding:6px 12px;">Choose File</button>
+                <button type="button" id="productRemoveImage" class="dd-btn dd-btn-danger" style="display:none;font-size:.8rem;padding:6px 12px;margin-top:6px;">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="dd-form-group">
+              <label>Sale Price (₱)</label>
+              <input type="number" class="dd-form-control" id="productSalePrice" placeholder="0.00" step="0.01"/>
+            </div>
+            <div class="dd-form-group">
+              <label>Quantity</label>
+              <input type="number" class="dd-form-control" id="productQuantity" placeholder="0"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="dd-btn dd-btn-primary" id="productSaveBtn">Save Product</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Service Modal ──────────────────────────────────────────── -->
+<div class="modal fade dd-modal" id="serviceModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="serviceModalLabel">Service Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="serviceForm">
+          <div class="dd-form-group">
+            <label>Name</label>
+            <input type="text" class="dd-form-control" id="serviceName" placeholder="Service name" required/>
+          </div>
+          <div class="dd-form-group">
+            <label>Category</label>
+            <select class="dd-form-control" id="serviceCategory">
+              <option selected>Select category</option>
+            </select>
+          </div>
+          <div class="dd-form-group">
+            <label>Service Picture</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <img id="servicePreviewImage" src="https://placehold.co/80x80/EEE/31343C" alt="Service" style="width:80px;height:80px;border-radius:6px;object-fit:cover;border:1px solid var(--border);"/>
+              <div>
+                <input type="file" id="serviceFileInput" accept="image/*" style="display:none;"/>
+                <button type="button" class="dd-btn dd-btn-secondary" id="serviceFileButton" style="font-size:.8rem;padding:6px 12px;">Choose File</button>
+                <button type="button" id="serviceRemoveImage" class="dd-btn dd-btn-danger" style="display:none;font-size:.8rem;padding:6px 12px;margin-top:6px;">Remove</button>
+              </div>
+            </div>
+          </div>
+          <div class="dd-form-group">
+            <label>Sale Price (₱)</label>
+            <input type="number" class="dd-form-control" id="serviceSalePrice" placeholder="0.00" step="0.01"/>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="dd-btn dd-btn-primary" id="serviceSaveBtn">Save Service</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/inventory.js') }}"></script>
+{% endblock %}

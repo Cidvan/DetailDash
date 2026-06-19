@@ -1,0 +1,99 @@
+Analyze the entire project and refactor it into a modern, production-ready car wash and auto detailing management system while preserving all existing business functionality and workflows.
+
+Requirements:
+
+* Do NOT remove existing features unless they are completely unused or broken.
+* Preserve current business logic, database relationships, CRUD operations, authentication, inventory management, transactions, invoices, accounts, and dashboard functionality.
+* Keep the existing Flask backend architecture unless a change is necessary for maintainability.
+* Resolve all broken routes, imports, database issues, template errors, JavaScript errors, and CSS conflicts.
+* Remove dead code, duplicate files, obsolete assets, and unused components.
+* Standardize folder structure and naming conventions.
+
+UI/UX Modernization:
+
+* Transform the interface into a professional automotive service platform.
+* Use a modern dashboard layout similar to professional SaaS products.
+* Mobile responsive design.
+* Consistent typography, spacing, colors, cards, tables, forms, and navigation.
+* Professional dark/light compatible design.
+* Replace outdated layouts with modern admin panels.
+* Improve accessibility and usability.
+
+Business Modules:
+
+Dashboard:
+
+* Daily sales
+* Monthly revenue
+* Service statistics
+* Inventory alerts
+* Pending jobs
+* Recent transactions
+
+Customer Management:
+
+* Customer profiles
+* Service history
+* Contact information
+* Vehicle records
+
+Vehicle Management:
+
+* Vehicle information
+* Plate number
+* Make and model
+* Service history
+
+Services:
+
+* Basic Wash
+* Premium Wash
+* Interior Detailing
+* Exterior Detailing
+* Engine Wash
+* Ceramic Coating
+* Custom services
+
+Inventory:
+
+* Product tracking
+* Stock monitoring
+* Low stock alerts
+* Supplier information
+
+Job Orders:
+
+* Service requests
+* Work status tracking
+* Assigned personnel
+* Completion records
+
+Invoices:
+
+* Professional printable invoices
+* Payment tracking
+* Service breakdown
+* Customer billing history
+
+Transactions:
+
+* Daily transactions
+* Revenue reports
+* Expense tracking
+
+Authentication:
+
+* Modern login UI
+* Role-based access if applicable
+* Secure session handling
+
+Code Quality:
+
+* Refactor duplicated code.
+* Improve maintainability.
+* Follow Flask best practices.
+* Improve database structure where needed.
+* Add comments only where useful.
+* Ensure the application runs without errors.
+
+Before making major structural changes, generate a migration plan and identify files that require refactoring.

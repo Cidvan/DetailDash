@@ -1,0 +1,31 @@
+VERDICT: APPROVED
+The diff correctly completes the task by preserving and safely honoring the originally requested destination after authentication, without introducing regressions.
+
+Critical findings / analysis:
+- `login_required` now redirects unauthenticated users to `/login?next=<request.path>`, which preserves where they were trying to go.
+- `login_get` reads `next` and passes it to `login.html`; the login form now includes a hidden `next` field when present.
+- `POST /login` now validates and applies `next` only when it is a safe in-app relative path (`startswith('/')` and not `//`), then redirects there after successful auth; otherwise it falls back to `/index`.
+- On failed login, it re-renders with a sanitized `next_url`, so retrying login still preserves intended navigation safely.
+- In the current codebase, required protected page routes (`/index`, `/transaction`, `/inventory`, `/customers`, `/vehicles`, `/job-orders`, `/account`) are guarded by `@login_required`, and API routes use `@api_login_required` with JSON `401` behavior.
+
+Security:
+- None observed at a blocking level. The open-redirect risk introduced by `next` is explicitly mitigated by safe-path checks.
+
+Next actions (high-impact):
+1) Add/confirm integration tests for: unauthenticated redirect to `/login?next=...`, successful login redirect back, and API unauthenticated `401` JSON.
+2) (Optional hardening) Preserve query strings for `next` using `request.full_path` (trim trailing `?`) if exact return-to context is desired.VERDICT: APPROVED
+The diff correctly completes the task by preserving and safely honoring the originally requested destination after authentication, without introducing regressions.
+
+Critical findings / analysis:
+- `login_required` now redirects unauthenticated users to `/login?next=<request.path>`, which preserves where they were trying to go.
+- `login_get` reads `next` and passes it to `login.html`; the login form now includes a hidden `next` field when present.
+- `POST /login` now validates and applies `next` only when it is a safe in-app relative path (`startswith('/')` and not `//`), then redirects there after successful auth; otherwise it falls back to `/index`.
+- On failed login, it re-renders with a sanitized `next_url`, so retrying login still preserves intended navigation safely.
+- In the current codebase, required protected page routes (`/index`, `/transaction`, `/inventory`, `/customers`, `/vehicles`, `/job-orders`, `/account`) are guarded by `@login_required`, and API routes use `@api_login_required` with JSON `401` behavior.
+
+Security:
+- None observed at a blocking level. The open-redirect risk introduced by `next` is explicitly mitigated by safe-path checks.
+
+Next actions (high-impact):
+1) Add/confirm integration tests for: unauthenticated redirect to `/login?next=...`, successful login redirect back, and API unauthenticated `401` JSON.
+2) (Optional hardening) Preserve query strings for `next` using `request.full_path` (trim trailing `?`) if exact return-to context is desired.

@@ -1,0 +1,145 @@
+aside {
+    width: 250px;
+    /* Adjust as needed */
+    background-color: #343a40;
+    /* Dark background to match the navbar */
+    color: white;
+    /* White text for contrast */
+    padding-top: 70px;
+    /* To avoid overlap with the fixed navbar */
+    height: 100vh;
+    /* Make it full height */
+    position: fixed;
+    /* Stick to the side */
+    top: 0;
+    left: 0;
+    /* Initially open */
+    z-index: 2;
+    /* Ensure it's above other content */
+    transition: left 0.3s ease;
+    /* Smooth transition for toggle */
+}
+
+aside.sidebar-collapsed {
+    left: -250px;
+    /* Hide the sidebar when collapsed */
+}
+
+aside .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+aside .logo {
+    display: flex;
+    align-items: center;
+}
+
+aside .logo img {
+    width: 40px;
+    /* Adjust logo size */
+    margin-right: 0.5rem;
+}
+
+aside .sidebar a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    padding-top: 0.75rem;
+    /* Adjust this value */
+    padding-bottom: 0.75rem;
+    /* Adjust this value */
+    margin-bottom: 0.5rem;
+    /* Adjust spacing between items if needed */
+}
+
+aside .sidebar a:hover {
+    background-color: #495057;
+    /* Slightly lighter dark background on hover */
+    color: rgb(136, 136, 136);
+}
+
+aside .sidebar a span {
+    margin-right: 1rem;
+}
+
+aside .sidebar a h5 {
+    margin-bottom: 0;
+    /* Remove default margin for better vertical alignment */
+}
+
+aside .sidebar a .badge {
+    margin-left: auto;
+    /* Push to the right */
+}
+
+#main-content {
+    box-sizing: border-box;
+    margin-top: 56px;
+    min-height: calc(100vh - 56px);
+    padding: 20px;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    width: 100%;
+}
+
+#main-content.sidebar-open {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+}
+
+/* Apply the font specifically to navbar elements if needed for overrides */
+.navbar {
+    font-family: 'Roboto', sans-serif;
+    /* Ensures the font is applied */
+}
+
+.dropdown-menu {
+    font-family: 'Roboto', sans-serif;
+    /* Apply to dropdowns as well */
+}
+
+.form-control {
+    font-family: 'Roboto', sans-serif;
+    /* Apply to the search input */
+}
+
+.btn {
+    font-family: 'Roboto', sans-serif;
+    /* Apply to the search button */
+}
+
+/* Style for the toggle button */
+.toggle-sidebar-btn {
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 3;
+    /* Ensure the toggle button is above the sidebar */
+}
+
+.toggle-sidebar-btn:focus {
+    outline: none;
+}
+
+@media (max-width: 767.98px) {
+    aside {
+        left: -250px;
+    }
+
+    aside.sidebar-open {
+        left: 0;
+    }
+
+    #main-content,
+    #main-content.sidebar-open {
+        margin-left: 0;
+        width: 100%;
+    }
+}

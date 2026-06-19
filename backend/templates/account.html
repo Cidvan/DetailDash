@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Account | DetailDash{% endblock %}
+{% block page_title %}Account{% endblock %}
+{% set active_page = "account" %}
+
+{% block content %}
+<div class="dd-page-header">
+  <div>
+    <h1>Account</h1>
+    <p>Your DetailDash session details.</p>
+  </div>
+</div>
+
+<div style="max-width:480px;">
+  <div class="dd-card">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;">
+      <div style="width:56px;height:56px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:700;flex-shrink:0;">
+        {{ user.username[0].upper() }}
+      </div>
+      <div>
+        <div style="font-size:1.05rem;font-weight:700;">{{ user.username }}</div>
+        <div style="font-size:.85rem;color:var(--text-muted);">{{ user.email }}</div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--border);padding-top:16px;">
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:12px 8px;font-size:.875rem;">
+        <span style="color:var(--text-muted);font-weight:600;">Name</span>
+        <span>{{ user.username }}</span>
+        <span style="color:var(--text-muted);font-weight:600;">Email</span>
+        <span>{{ user.email }}</span>
+        <span style="color:var(--text-muted);font-weight:600;">Role</span>
+        <span><span class="dd-badge dd-badge-blue">Administrator</span></span>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+      <a href="/logout" class="dd-btn dd-btn-secondary">
+        <i class="fas fa-right-from-bracket"></i> Sign Out
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+VERDICT: REJECTED
+The diff is close, but it does not satisfy the core requirement to keep a log of **every** stock change, specifically manual stock edits.
+
+Critical findings:
+- ✅ `InventoryLog` model was added with required core fields (`product_id`, `delta`, `reason`, `transaction_id`, `timestamp`) and relationship to `Product`.
+- ✅ `_deduct_product_stock()` and `_restore_product_stock()` now write audit entries, and transaction save/delete paths pass transaction IDs/reasons.
+- ✅ New authenticated API endpoint (`GET /api/inventory-log`) and inventory UI modal/history button were added, enabling per-product log viewing.
+- ❌ **Blocking gap:** manual inventory edits are not logged. In `update_product()`, `p.quantity` is overwritten directly with no `InventoryLog` insert. The task explicitly calls out sales, voids, and manual edits, and the “manual” reason is present in labels but never produced.
+
+Security:
+- No serious security violations observed in the changed paths.
+
+Next actions (high-impact):
+1. In `update_product()`, compute `delta = new_qty - old_qty`; when `delta != 0`, insert `InventoryLog(product_id=p.id, delta=delta, reason="manual", transaction_id=None, notes=...)` before commit.
+2. Ensure quantity parsing/validation for manual edits is robust (reject invalid values; avoid silent no-op on malformed input).
+3. Optionally log other manual stock-changing operations (if any exist beyond `update_product`) to uphold “every stock change” semantics.VERDICT: REJECTED
+The diff is close, but it does not satisfy the core requirement to keep a log of **every** stock change, specifically manual stock edits.
+
+Critical findings:
+- ✅ `InventoryLog` model was added with required core fields (`product_id`, `delta`, `reason`, `transaction_id`, `timestamp`) and relationship to `Product`.
+- ✅ `_deduct_product_stock()` and `_restore_product_stock()` now write audit entries, and transaction save/delete paths pass transaction IDs/reasons.
+- ✅ New authenticated API endpoint (`GET /api/inventory-log`) and inventory UI modal/history button were added, enabling per-product log viewing.
+- ❌ **Blocking gap:** manual inventory edits are not logged. In `update_product()`, `p.quantity` is overwritten directly with no `InventoryLog` insert. The task explicitly calls out sales, voids, and manual edits, and the “manual” reason is present in labels but never produced.
+
+Security:
+- No serious security violations observed in the changed paths.
+
+Next actions (high-impact):
+1. In `update_product()`, compute `delta = new_qty - old_qty`; when `delta != 0`, insert `InventoryLog(product_id=p.id, delta=delta, reason="manual", transaction_id=None, notes=...)` before commit.
+2. Ensure quantity parsing/validation for manual edits is robust (reject invalid values; avoid silent no-op on malformed input).
+3. Optionally log other manual stock-changing operations (if any exist beyond `update_product`) to uphold “every stock change” semantics.

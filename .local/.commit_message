@@ -1,0 +1,28 @@
+feat(task-16): dedicated stock adjustment modal with delta + notes
+
+Adds a focused "Adjust Stock" workflow so staff can correct inventory
+discrepancies with a signed delta and an optional reason note, rather
+than having to use the full product edit form.
+
+## Backend (routes/api.py)
+- New POST /api/products/<id>/adjust-stock endpoint (JSON body)
+- Accepts `delta` (signed int, required, non-zero) and `notes` (optional string)
+- Applies delta to product.quantity atomically
+- Writes InventoryLog(reason="manual", delta=delta, notes=notes) — the
+  notes field added in Task #15 is now actually populated
+- Returns updated quantity in response for client-side confirmation
+
+## Frontend
+- New "Adjust Stock" modal (max-width 440px) between Stock History and
+  Product modals in inventory.html
+- Shows current stock count prominently in a read-only summary row
+- Delta input with live preview: "New stock will be 12 (+5)" color-coded
+  green for additions, red for removals
+- Optional Reason/Notes textarea with placeholder examples
+- Client-side validation: blocks zero delta with inline error message
+- Submit button shows "Saving…" + disabled state during request
+- On success: modal closes, product table reloads immediately
+- New sliders icon button (fa-sliders) added to each product row between
+  Edit and History buttons
+
+## No schema changes — InventoryLog.notes column already exists from Task #15

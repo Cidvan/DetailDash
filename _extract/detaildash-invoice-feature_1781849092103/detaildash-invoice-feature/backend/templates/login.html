@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='assets/images/detaildash-icon.png') }}">
+    <title>Login | DetailDash</title>
+</head>
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <!-- CREATE ACCOUNT -->
+                <form action="/register" method="POST">
+                    <h1>Create Account</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                {% if category.startswith('register_') %}
+                  <li class="{{ category|replace('register_', '') }}">{{ message }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-yahoo"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                    <span>or use your email for registration</span>
+                    
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="middle_name" placeholder="Middle Name">
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    
+                    <button type="submit">Create Account</button>
+                </form>
+        </div>
+
+        <div class="form-container sign-in">
+            <!-- LOGIN ACCOUNT -->
+                <form action="/login" method="POST">
+                    <h1>Sign In</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                {% if category.startswith('login_') %}
+                  <li class="{{ category|replace('login_', '') }}">{{ message }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+                    <div class="social-icons">
+                        <a href="#" class="icon"><i class="fa-brands fa-yahoo"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-google"></i></a>
+                        <a href="#" class="icon"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                    <span>or use your email and password</span>
+
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+
+                    <a href="#">Forgot Password?</a>
+                    <button type="submit">Log In</button>
+                </form>
+        </div>
+
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Welcome to DetailDash!</h1>
+                    <p>Enter your personal information to create an account</p>
+                    <button class="hidden" id="login">Log In</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your account details</p>
+                    <button class="hidden" id="register">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const container = document.getElementById('container');
+        const formToShow = "{{ form|default('login') }}";
+        if (formToShow === 'register') {
+          container.classList.add('active');
+        } else {
+          container.classList.remove('active');
+        }
+      });
+    </script>
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

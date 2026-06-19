@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+    <link rel="icon" href="{{ url_for('static', filename='assets/images/detaildash-icon.png') }}"/>
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inventory.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/navbar/navbar.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/sidebar/sidebar.css') }}"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+    <title>Inventory | DetailDash</title>
+</head>
+<body>
+    <nav name="navbar" class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="toggle-sidebar-btn me-2" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="#" class="navbar-brand mb-0 h1">
+                <img class="d-inline-block align-top" src="{{ url_for('static', filename='assets/detaildash-name.png') }}" width="240" alt="DetailDash Logo">
+            </a>
+            <button
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                class="navbar-toggler"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle Navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <form class="d-flex ms-lg-2">
+                        <input type="text" class="form-control me-2" placeholder="Search">
+                        <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <aside class="bg-dark text-light">
+        <div class="sidebar d-flex flex-column nav nav-pills nav-flush">
+            <a href="/account" class="nav-link mb-1">
+                <span class="material-symbols-outlined me-2">person</span>
+                <h5>Account</h5>
+            </a>
+            <a href="/index" class="nav-link mb-1">
+                <span class="material-symbols-outlined me-2">dashboard</span>
+                <h5>Dashboard</h5>
+            </a>
+            <a href="/transaction" class="nav-link mb-1">
+                <span class="material-symbols-outlined me-2">receipt_long</span>
+                <h5>Transaction</h5>
+            </a>
+            <a href="#" class="nav-link mb-1">
+                <span class="material-symbols-outlined me-2">search_insights</span>
+                <h5>Sales</h5>
+            </a>
+            <a href="/inventory" class="nav-link active mb-1">
+                <span class="material-symbols-outlined me-2">inventory</span>
+                <h5>Inventory</h5>
+            </a>
+            <a href="#" class="nav-link mb-1">
+                <span class="material-symbols-outlined me-2">settings</span>
+                <h5>Settings</h5>
+            </a>
+            <a href="/logout" class="nav-link">
+                <span class="material-symbols-outlined me-2">logout</span>
+                <h5>Log Out</h5>
+            </a>
+        </div>
+    </aside>
+
+    <div id="main-content">
+        <div class="inventory-header">
+            <h1>Inventory</h1>
+            <div class="inventory-actions">
+                <button id="addItemButton" type="button" class="btn btn-primary">
+                    Add Item
+                </button>
+                <button class="btn btn-primary"><i class="fas fa-file-export"></i> Export</button>
+            </div>
+        </div>
+
+        <!-- Product Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productModalLabel">Product Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="productForm">
+                            <div class="form-group">
+                                <label for="productName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="productName" placeholder="Enter product name">
+                            </div>
+                            <div class="form-group">
+                                <label for="productCategory" class="form-label">Category</label>
+                                <select class="form-select" id="productCategory">
+                                    <option selected>Select category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Product Picture</label>
+                                <div class="d-flex align-items-center">
+                                    <div style="margin-right: 10px;">
+                                        <img id="productPreviewImage" src="https://placehold.co/100x100/EEE/31343C" alt="Product" class="img-thumbnail">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <input type="file" class="custom-file-input" id="productFileInput" accept="image/*" style="display:none;">
+                                        <button type="button" class="btn btn-secondary" id="productFileButton">Choose file</button>
+                                        <button type="button" id="productRemoveImage" class="btn btn-danger btn-sm mt-2" style="display:none;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="productSalePrice" class="form-label">Sale Price</label>
+                                        <input type="number" class="form-control" id="productSalePrice" placeholder="Enter sale price">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="productQuantity" class="form-label">Quantity</label>
+                                        <input type="number" class="form-control" id="productQuantity" placeholder="Enter quantity">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="productSaveBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Modal -->
+        <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="serviceModalLabel">Service Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="serviceForm">
+                            <div class="form-group">
+                                <label for="serviceName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="serviceName" placeholder="Enter service name">
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceCategory" class="form-label">Category</label>
+                                <select class="form-select" id="serviceCategory">
+                                    <option selected>Select category</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Service Picture</label>
+                                <div class="d-flex align-items-center">
+                                    <div style="margin-right: 10px;">
+                                        <img id="servicePreviewImage" src="https://placehold.co/100x100/EEE/31343C" alt="Service" class="img-thumbnail">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <input type="file" class="custom-file-input" id="serviceFileInput" accept="image/*" style="display:none;">
+                                        <button type="button" class="btn btn-secondary" id="serviceFileButton">Choose file</button>
+                                        <button type="button" id="serviceRemoveImage" class="btn btn-danger btn-sm mt-2" style="display:none;">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="serviceSalePrice" class="form-label">Sale Price</label>
+                                <input type="number" class="form-control" id="serviceSalePrice" placeholder="Enter sale price">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="serviceSaveBtn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toggle-container">
+            <button class="toggle-button active" data-section="services">Services</button>
+            <button class="toggle-button" data-section="products">Products</button>
+        </div>
+
+        <div id="services-section" class="active">
+            <table class="menu-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="products-section">
+            <table class="menu-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    <!-- Local JS -->
+    <script src="{{ url_for('static', filename='js/inventory.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modules/sidebar.js') }}"></script>
+</body>
+</html>

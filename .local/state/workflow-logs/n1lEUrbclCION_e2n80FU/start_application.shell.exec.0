@@ -1,0 +1,101 @@
+ * Serving Flask app 'app'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.24.0.2:5000
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [19/Jun/2026 06:12:48] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:12:49] "GET /static/js/login.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:12:49] "GET /static/css/login.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:14] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:14] "GET /static/js/login.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:14] "GET /static/css/login.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:14] "GET /static/assets/detaildash-name.png HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:31] "GET /transaction HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:31] "GET /inventory HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:31] "GET /api/transactions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /transaction HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/css/transaction.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/css/invoice.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/css/components/sidebar/sidebar.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/css/components/navbar/navbar.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "[36mGET /static/assets/detaildash-name.png HTTP/1.1[0m" 304 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/css/style.css HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/js/modules/sidebar.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/js/transaction.js HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/assets/detaildash-icon.png HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /api/services HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /api/transactions HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /api/products HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:46] "GET /static/assets/images/uploads/Screenshot_2025-02-25_153044.png HTTP/1.1" 200 -
+127.0.0.1 - - [19/Jun/2026 06:13:47] "[36mGET /static/assets/detaildash-icon.png HTTP/1.1[0m" 304 -
+[2026-06-19 06:37:26,017] ERROR in app: Exception on /register [POST]
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: user.password_hash
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/flask/app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/backend/app.py", line 106, in register
+    if User.query.filter_by(email=email).first():
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2373, in execute
+    return self._execute_internal(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/orm/session.py", line 2271, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+             ^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1421, in execute
+    return meth(
+           ^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/sql/elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1643, in _execute_clauseelement
+    ret = self._execute_context(
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1848, in _execute_context
+    return self._exec_single_context(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1988, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 2365, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/base.py", line 1969, in _exec_single_context
+    self.dialect.do_execute(
+  File "/home/runner/workspace/.pythonlibs/lib/python3.11/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: user.password_hash
+[SQL: SELECT user.id AS user_id, user.username AS user_username, user.email AS user_email, user.password_hash AS user_password_hash 
+FROM user 
+WHERE user.email = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('cidvan.san@gmail.com', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+127.0.0.1 - - [19/Jun/2026 06:37:26] "[35m[1mPOST /register HTTP/1.1[0m" 500 -

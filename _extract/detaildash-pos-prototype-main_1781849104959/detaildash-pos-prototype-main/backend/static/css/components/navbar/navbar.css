@@ -1,0 +1,11 @@
+.navbar {
+    background-color: #180e0e;
+    background: linear-gradient(to right, #7c7888, #180e0e);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+.navbar-icon i {
+    color: #fff;
+    margin-top: 10px;
+    margin-left: 5px;
+}

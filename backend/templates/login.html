@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="{{ url_for('static', filename='assets/detaildash-icon.png') }}"/>
+  <title>Login | DetailDash</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/theme.css') }}"/>
+</head>
+<body style="background:linear-gradient(135deg,#0f172a 0%,#1e40af 100%);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;">
+
+<div class="dd-login-card">
+
+  <!-- Left: Forms -->
+  <div class="dd-login-left">
+    <div class="dd-login-brand">
+      <img src="{{ url_for('static', filename='assets/detaildash-icon.png') }}" alt="DD"/>
+      <h1 style="font-size:1.3rem;font-weight:700;margin:0;">DetailDash</h1>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="dd-alert dd-alert-{{ 'error' if category == 'error' else 'success' }}">
+            <i class="fas fa-{{ 'circle-exclamation' if category == 'error' else 'circle-check' }}"></i>
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="dd-login-tabs">
+      <button class="dd-login-tab active" id="tabSignIn" onclick="showTab('signin')">Sign In</button>
+      <button class="dd-login-tab" id="tabSignUp" onclick="showTab('signup')">Create Account</button>
+    </div>
+
+    <!-- Sign In -->
+    <div class="dd-login-form active" id="formSignin">
+      <form action="/login" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        {% if next_url %}<input type="hidden" name="next" value="{{ next_url }}"/>{% endif %}
+        <div class="dd-form-group">
+          <label>Email</label>
+          <input type="email" name="email" class="dd-form-control" placeholder="you@example.com" required/>
+        </div>
+        <div class="dd-form-group">
+          <label>Password</label>
+          <input type="password" name="password" class="dd-form-control" placeholder="••••••••" required/>
+        </div>
+        <button type="submit" class="dd-btn dd-btn-primary" style="width:100%;justify-content:center;padding:10px 16px;">
+          <i class="fas fa-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+    </div>
+
+    <!-- Sign Up -->
+    <div class="dd-login-form" id="formSignup">
+      <form action="/register" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div class="dd-form-group">
+            <label>First Name</label>
+            <input type="text" name="first_name" class="dd-form-control" placeholder="Juan" required/>
+          </div>
+          <div class="dd-form-group">
+            <label>Last Name</label>
+            <input type="text" name="last_name" class="dd-form-control" placeholder="Dela Cruz" required/>
+          </div>
+        </div>
+        <div class="dd-form-group">
+          <label>Middle Name <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
+          <input type="text" name="middle_name" class="dd-form-control" placeholder="Santos"/>
+        </div>
+        <div class="dd-form-group">
+          <label>Email</label>
+          <input type="email" name="email" class="dd-form-control" placeholder="you@example.com" required/>
+        </div>
+        <div class="dd-form-group">
+          <label>Password</label>
+          <input type="password" name="password" class="dd-form-control" placeholder="••••••••" required/>
+        </div>
+        <button type="submit" class="dd-btn dd-btn-primary" style="width:100%;justify-content:center;padding:10px 16px;">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right: Brand panel -->
+  <div class="dd-login-right">
+    <img src="{{ url_for('static', filename='assets/detaildash-name.png') }}" alt="DetailDash" style="height:44px;margin-bottom:28px;"/>
+    <h2>Automotive Service<br/>Management Platform</h2>
+    <p>Manage your car wash and detailing business — transactions, inventory, customers, vehicles, and job orders all in one place.</p>
+    <div style="display:flex;gap:32px;margin-top:20px;">
+      <div style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:700;">POS</div>
+        <div style="font-size:.75rem;opacity:.7;margin-top:2px;">Fast Interface</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:700;">CRM</div>
+        <div style="font-size:.75rem;opacity:.7;margin-top:2px;">Customer Tracking</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-size:1.6rem;font-weight:700;">JMS</div>
+        <div style="font-size:.75rem;opacity:.7;margin-top:2px;">Job Management</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(tab) {
+  document.getElementById('formSignin').classList.toggle('active', tab === 'signin');
+  document.getElementById('formSignup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tabSignIn').classList.toggle('active', tab === 'signin');
+  document.getElementById('tabSignUp').classList.toggle('active', tab === 'signup');
+}
+</script>
+</body>
+</html>

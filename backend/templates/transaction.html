@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% block title %}Transactions | DetailDash{% endblock %}
+{% block page_title %}Transactions{% endblock %}
+{% set active_page = "transactions" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/invoice.css') }}"/>
+{% endblock %}
+
+{% block content %}
+<div class="dd-page-header">
+  <div>
+    <h1>Transactions</h1>
+    <p>View purchase history and create new transactions.</p>
+  </div>
+  <button id="addTransactionButton" class="dd-btn dd-btn-primary">
+    <i class="fas fa-plus"></i> New Transaction
+  </button>
+</div>
+
+<!-- Purchase Table -->
+<div class="dd-table-wrapper">
+  <table class="dd-table" id="purchaseTable">
+    <thead>
+      <tr>
+        <th>Transaction #</th>
+        <th>Date</th>
+        <th>Customer</th>
+        <th style="text-align:right;">Amount</th>
+        <th style="text-align:center;">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="purchaseTableBody">
+      <tr><td colspan="5" class="dd-table-empty">
+        <i class="fas fa-receipt"></i>
+        No transactions yet.
+      </td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ── New Transaction Modal ─────────────────────────────────── -->
+<div class="modal fade dd-modal" id="myModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-cart-shopping me-2" style="color:var(--primary);"></i>New Transaction</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3 mb-3">
+          <div class="col-md-3">
+            <label class="form-label fw-semibold" style="font-size:.8rem;">Order Date</label>
+            <input type="date" class="form-control form-control-sm" id="orderDate"/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold" style="font-size:.8rem;">Customer</label>
+            <div style="position:relative;">
+              <input type="text" class="form-control form-control-sm" id="customername" placeholder="Search or type walk-in name…" autocomplete="off"/>
+              <div id="customerSuggestions" style="display:none;position:absolute;z-index:999;width:100%;background:#fff;border:1px solid var(--border);border-radius:6px;max-height:180px;overflow-y:auto;box-shadow:0 4px 12px rgba(0,0,0,.12);top:100%;left:0;"></div>
+            </div>
+            <input type="hidden" id="customerIdHidden"/>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold" style="font-size:.8rem;">Vehicle <span style="font-weight:400;color:var(--text-muted);">(optional)</span></label>
+            <select class="form-select form-select-sm" id="vehicleSelect">
+              <option value="">— Select vehicle —</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label fw-semibold" style="font-size:.8rem;">Category</label>
+            <select class="form-select form-select-sm" id="categorySelect">
+              <option value="All">All Categories</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-2">
+          <input type="text" id="productSearch" class="form-control form-control-sm" placeholder="Search products and services…"/>
+        </div>
+        <div class="dd-product-grid" id="productGrid"></div>
+        <hr class="my-3"/>
+        <div class="row g-3">
+          <div class="col-md-7">
+            <div style="font-size:.85rem;font-weight:600;margin-bottom:8px;">Order Summary</div>
+            <div id="cartItems" class="list-group list-group-flush" style="border:1px solid var(--border);border-radius:6px;min-height:60px;"></div>
+          </div>
+          <div class="col-md-5">
+            <div class="dd-card" style="padding:16px;">
+              <div style="font-size:.85rem;font-weight:600;margin-bottom:12px;">Payment</div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:.85rem;color:var(--text-muted);">Total</span>
+                <span style="font-weight:700;font-size:1rem;color:var(--primary);" id="grandTotal">₱0.00</span>
+              </div>
+              <label style="font-size:.78rem;font-weight:600;" class="form-label">Payment Amount</label>
+              <input type="number" class="form-control form-control-sm mb-2" id="payment" min="0" placeholder="0.00"/>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-size:.85rem;color:var(--text-muted);">Change</span>
+                <span style="font-weight:600;" id="change">₱0.00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="dd-btn dd-btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button id="finalizeCheckoutBtn" class="dd-btn dd-btn-primary">
+          <i class="fas fa-check"></i> Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Invoice Modal ─────────────────────────────────────────── -->
+<div class="modal fade" id="invoiceModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content p-3">
+      <div class="d-flex justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-0">
+        <div class="invoice-wrapper" id="print-area">
+          <div class="invoice"><div class="invoice-container">
+            <div class="invoice-head">
+              <div class="invoice-head-top">
+                <div class="invoice-head-top-left">
+                  <img src="{{ url_for('static', filename='assets/detaildash-icon.png') }}" alt="DetailDash Icon">
+                </div>
+                <div class="invoice-head-top-right text-end"><h3>Invoice</h3></div>
+              </div>
+              <div class="hr"></div>
+              <div class="invoice-head-middle">
+                <div class="invoice-head-middle-left">
+                  <p><span class="text-bold">Date:</span> <span id="invoiceDate"></span></p>
+                </div>
+                <div class="invoice-head-middle-right text-end">
+                  <p><span class="text-bold">Transaction #:</span> <span id="invoiceTransactionId"></span></p>
+                </div>
+              </div>
+              <div class="hr"></div>
+              <div class="invoice-head-bottom">
+                <div class="invoice-head-bottom-left">
+                  <ul>
+                    <li class="text-bold">Invoiced To:</li>
+                    <li id="invoiceCustomer"></li>
+                  </ul>
+                </div>
+                <div class="invoice-head-bottom-right text-end">
+                  <ul>
+                    <li class="text-bold">Pay To:</li>
+                    <li>DetailDash Inc.</li>
+                    <li>2705 Upper St., Zone III</li>
+                    <li>Makati, Manila</li>
+                    <li>contact@detaildash.com</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="overflow-view">
+              <div class="invoice-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <td class="text-bold">Items</td>
+                      <td class="text-bold">Description</td>
+                      <td class="text-bold">Rate</td>
+                      <td class="text-bold">Qty</td>
+                      <td class="text-bold text-end">Amount</td>
+                    </tr>
+                  </thead>
+                  <tbody id="invoiceItemsBody"></tbody>
+                </table>
+                <div class="invoice-body-info-item">
+                  <div class="info-item-td text-end text-bold">Grand Total:</div>
+                  <div class="info-item-td text-end" id="invoiceGrandTotal"></div>
+                </div>
+              </div>
+            </div>
+            <div class="invoice-foot text-center">
+              <p><span class="text-bold">NOTE:</span> This is a computer-generated receipt and does not require a physical signature.</p>
+              <div class="invoice-btns">
+                <button type="button" class="invoice-btn" onclick="printInvoice()">
+                  <i class="fa-solid fa-print"></i> Print
+                </button>
+              </div>
+            </div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/transaction.js') }}"></script>
+{% endblock %}
